@@ -1,6 +1,7 @@
 import { useRoutes } from "react-router-dom";
 import MainLayout from "../components/MainLayout";
 import Login from "../pages/Login";
+import Register from "../pages/Register";
 import AuthenticatedRoute from "./AuthenticatedRoute";
 import UnAuthenticatedRoute from "./UnAunthenticatedRoute";
 import Task from "../pages/Task";
@@ -30,6 +31,10 @@ const routes = [
         path: "/login",
         element: <Login />,
       },
+      {
+        path: "/register",
+        element: <Register />
+      }
     ],
   },
 ];

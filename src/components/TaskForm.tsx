@@ -10,6 +10,11 @@ interface Props {
   task: Task | null;
 }
 
+type UpdatePayload = {
+    id: string;
+    data: TaskFormData;
+};  
+
 const TaskFormModal: React.FC<Props> = ({ onClose, onSuccess, task }) => {
   const [form, setForm] = useState<TaskFormData>({
     title: '',
@@ -40,7 +45,7 @@ const TaskFormModal: React.FC<Props> = ({ onClose, onSuccess, task }) => {
   });
   
   const updateMutation = useMutation({
-    mutationFn: ({ id, data }: { id: string, data: TaskFormData }) => taskUpdate(id, data),
+    mutationFn: (data: UpdatePayload) => taskUpdate(data.id, data.data),
     onSuccess: () => {
       onClose();
       onSuccess();
@@ -49,7 +54,7 @@ const TaskFormModal: React.FC<Props> = ({ onClose, onSuccess, task }) => {
   
   const handleSubmit = () => {
     if (task) {
-      updateMutation.mutate({ id: task.id, data: form });
+      updateMutation.mutate({ id: task._id, data: form });
     } else {
       createMutation.mutate(form);
     }
@@ -77,8 +82,8 @@ const TaskFormModal: React.FC<Props> = ({ onClose, onSuccess, task }) => {
           <option value="Completed">Completed</option>
         </select>
         <input
-          type="description"
-          name="Description"
+          name="description"
+          placeholder="Description"
           value={form.description}
           onChange={handleChange}
           className="w-full border p-2 rounded"

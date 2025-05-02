@@ -5,7 +5,7 @@ import { Task } from '../types/task';
 import TaskFormModal from '../components/TaskForm';
 
 const TaskTable = () => {
-  const [tasks, setTasks] = useState<Task[]>([{id: "1", title:"test", description: "test", status: "Pending"}]);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [filtered, setFiltered] = useState<Task[]>([]);
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
@@ -17,7 +17,7 @@ const TaskTable = () => {
   }, []);
 
   useEffect(() => {
-    let data = [...tasks];
+    let data = Array.isArray(tasks) ? [...tasks] : []
     if (search) {
       data = data.filter(t => t.title.toLowerCase().includes(search.toLowerCase()));
     }
@@ -29,7 +29,7 @@ const TaskTable = () => {
 
   const loadTasks = async () => {
     const res = await taskList();
-    setTasks(res.data);
+    setTasks(res.data.tasks);
   };
 
   const handleEdit = (task: Task) => {
@@ -80,13 +80,13 @@ const TaskTable = () => {
         </thead>
         <tbody>
           {filtered.map(task => (
-            <tr key={task.id}>
+            <tr key={task._id}>
               <td className="border px-4 py-2">{task.title}</td>
               <td className="border px-4 py-2">{task.status}</td>
               <td className="border px-4 py-2">{task.description}</td>
               <td className="border px-4 py-2 space-x-2">
                 <button className="text-blue-600" onClick={() => handleEdit(task)}>Edit</button>
-                <button className="text-red-600" onClick={() => handleDelete(task.id)}>Delete</button>
+                <button className="text-red-600" onClick={() => handleDelete(task._id)}>Delete</button>
               </td>
             </tr>
           ))}

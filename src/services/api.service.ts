@@ -1,8 +1,9 @@
+import { LoginData, RegisterData } from "../types/user";
 import api from "./api.interceptor";
 
 // User
-export const login: any = (data: any) => api({ method: "POST", url: `users/login`, data });
-export const register = (data: any) => api({ method: "POST", url: `users/register`, data });
+export const login = (data: LoginData) => api({ method: "POST", url: `user/login`, data });
+export const register = (data: RegisterData) => api({ method: "POST", url: `user/register`, data });
 
 // Task
 export const taskList = () => api({ method: "GET", url: `tasks/` });
